@@ -1,0 +1,96 @@
+Create Server User and Grant Permissions
+sudo adduser sammy
+sudo usermod -aG sudo sammy
+
+Setting Up a Firewall
+sudo ufw app list
+sudo ufw allow OpenSSH
+sudo ufw enable
+sudo ufw status
+
+Installing the Nginx Web Server
+sudo apt update
+sudo apt install nginx
+sudo ufw allow 'Nginx HTTP'
+
+Check Server IP Addresses
+ip addr show
+hostname -I
+curl -4 icanhazip.com
+
+Test NginX
+http://server_domain_or_IP
+
+Installing MySQL and Creating Application Database
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo mysql
+CREATE DATABASE app_database;
+exit;
+
+Create MySQL User and Grant Permissions
+sudo mysql
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+GRANT type_of_permission ON database.table TO 'username'@'localhost';
+exit;
+(database.table, *.*)
+(Privileges or type_of_permission are CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD or ALL)
+additional
+REVOKE type_of_permission ON database.table FROM 'username'@'localhost';
+SHOW GRANTS FOR 'username'@'localhost';
+
+Installing PHP, Composer and Git
+sudo apt install --no-install-recommends php8.1
+sudo apt-get install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath php8.1-fpm
+curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+HASH=`curl -sS https://composer.github.io/installer.sig`
+php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+sudo apt install git
+
+Setting Project Root
+cd /var/www/
+sudo git clone https://github.com/ 
+sudo nano /var/www/root/artisan
+copy and paste the code from artisan.txt
+sudo nano /var/www/root/.env
+copy and paste the code form env.txt
+sudo composer install
+other necessary laravel operations
+
+Setting NginX for project
+Giving directory permissions
+sudo chown -R www-data.www-data /var/www/{root}/storage
+sudo chown -R www-data.www-data /var/www/{root}/bootstrap/cache
+sudo chown -R root:www-data /var/www/{root}/storage
+sudo chown -R root:www-data /var/www/{root}/bootstrap/cache
+sudo chown -R root:root /var/www/{root}/storage
+sudo chown -R root:root /var/www/{root}/bootstrap/cache
+
+Creating NginX site config
+sudo nano /etc/nginx/sites-available/{root}
+copy and paste the code from nginXconfig.txt
+
+config file description
+listen — Defines what port Nginx will listen on. In this case, it will listen on port 80, the default port for HTTP.
+root — Defines the document root where the files served by this website are stored.
+index — Defines in which order Nginx will prioritize index files for this website. It is a common practice to list 
+index.html files with higher precedence than index.php files to allow for quickly setting up a maintenance landing 
+page in PHP applications. You can adjust these settings to better suit your application needs.
+server_name — Defines which domain names and/or IP addresses this server block should respond for. Point this 
+directive to your server’s domain name or public IP address.
+location / — The first location block includes a try_files directive, which checks for the existence of files or directories 
+matching a URL request. If Nginx cannot find the appropriate resource, it will return a 404 error.
+location ~ \.php$ — This location block handles the actual PHP processing by pointing Nginx to the fastcgi-php.conf 
+configuration file and the php8.1-fpm.sock file, which declares what socket is associated with php8.1-fpm.
+location ~ /\.ht — The last location block deals with .htaccess files, which Nginx does not process. By adding the deny 
+all directive, if any .htaccess files happen to find their way into the document root, they will not be served to visitors.
+
+Link config to site and start server
+sudo unlink /etc/nginx/sites-enabled/default <== unlink default NginX page
+sudo ln -s /etc/nginx/sites-available/{root} /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/{root} /etc/nginx/sites-enabled/ <== force link
+sudo service nginx restart
+
+
+
