@@ -1,0 +1,5 @@
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+comment out bind-address
+
+mysql
+CREATE USER 'remote_db_admin'@'%' IDENTIFIED BY 'password';

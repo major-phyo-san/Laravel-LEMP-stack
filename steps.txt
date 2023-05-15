@@ -12,6 +12,9 @@ Installing the Nginx Web Server
 sudo apt update
 sudo apt install nginx
 sudo ufw allow 'Nginx *'
+sudo fuser -k 80/tcp
+sudo fuser -k 443/tcp
+sudo systemctl start nginx
 
 Check Server IP Addresses
 ip addr show
@@ -42,6 +45,13 @@ Installing PHP, Composer, Nodejs and Git
 sudo apt install --no-install-recommends php8.1
 sudo apt-get install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath php8.1-fpm
 
+Install PHP 7.4
+sudo apt update && sudo apt upgrade
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt install --no-install-recommends php7.4
+sudo apt-get install -y php7.4-cli php7.4-common php7.4-mysql php7.4-zip php7.4-gd php7.4-mbstring php7.4-curl php7.4-xml php7.4-bcmath php7.4-fpm
+
 curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 HASH=`curl -sS https://composer.github.io/installer.sig`
 php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -64,6 +74,11 @@ other necessary laravel operations
 
 Setting NginX for project
 Giving directory permissions
+sudo chmod o+w ./storage/ -R
+sudo chmod -R 775 storage
+sudo chown -R www-data.www-data /var/www/{prj_root}/storage
+sudo chown -R www-data.www-data /var/www/{prj_root}/bootstrap/cache
+
 sudo chown -R www-data.www-data /var/www/{prj_root}/storage
 sudo chown -R www-data.www-data /var/www/{prj_root}/storage/logs
 sudo chown -R www-data.www-data /var/www/{prj_root}/bootstrap/cache
@@ -79,6 +94,7 @@ php artisan storage:link
 Creating NginX site config
 sudo nano /etc/nginx/sites-available/{root}
 copy and paste the code from nginXconfig.txt
+sudo nginx -t
 
 Link config to site and start server
 sudo unlink /etc/nginx/sites-enabled/default <== unlink default NginX page

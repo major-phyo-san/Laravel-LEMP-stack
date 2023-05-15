@@ -1,0 +1,2 @@
+The system must be on Python 3.10
+python -m pip install --user ansible==2.10

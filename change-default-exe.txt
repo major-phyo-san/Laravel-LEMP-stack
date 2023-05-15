@@ -1,0 +1,7 @@
+example with Python
+ls /usr/bin/python*
+This will show you a list of available Python versions on your system.
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+This command sets the /usr/bin/python3.9 executable as the default Python version, and assigns it a priority of 1.
+You can replace python3.9 with the version of Python you want to use.

@@ -1,0 +1,2 @@
+sudo nano /etc/crontab
+* * * * * root php /var/www/{prjroot}/artisan schedule:run >> /dev/null 2>&1
