@@ -1,0 +1,29 @@
+MySQL Setup
+
+Installation
+sudo apt install mysql-server
+sudo mysql
+
+Inside mysql
+CREATE DATABASE app_database;
+exit;
+
+Create MySQL User and Grant Permissions
+sudo mysql
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+
+Create MySQL Remote User
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+comment out bind-address
+
+sudo mysql
+CREATE USER 'remote_db_admin'@'%' IDENTIFIED BY 'password';
+
+Granting Permissions
+GRANT type_of_permission ON database.table TO 'username'@'host';
+exit;
+(database.table, *.*)
+(Privileges or type_of_permission are CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD or ALL)
+additional
+REVOKE type_of_permission ON database.table FROM 'username'@'localhost';
+SHOW GRANTS FOR 'username'@'localhost';

@@ -1,8 +1,8 @@
 server {
     listen 80;
     server_name {domain name or IP};
-    root /var/www/{prj_root}/public;
 
+    root /var/www/{prj_root}/public;
     index index.html index.htm index.php;
 
     location / {
@@ -12,7 +12,7 @@ server {
     location ~ \.php$ {
 
         include fastcgi_params;
-        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock; // change php version as needed
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
