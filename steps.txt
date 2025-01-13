@@ -35,8 +35,7 @@ other necessary laravel operations
 
 Setting NginX for project
 Giving directory permissions
-sudo chmod o+w ./storage/ -R
-sudo chmod -R 775 storage
+sudo chown -R www-data:www-data *
 sudo chown -R www-data.www-data /var/www/{prj_root}/storage
 sudo chown -R www-data.www-data /var/www/{prj_root}/bootstrap/cache
 
@@ -49,7 +48,7 @@ sudo chown -R root:www-data /var/www/{prj_root}/bootstrap/cache
 sudo chown -R root:root /var/www/{prj_root}/storage
 sudo chown -R root:root /var/www/{prj_root}/storage/logs
 sudo chown -R root:root /var/www/{prj_root}/bootstrap/cache
-sudo chown -R www-data:www-data *
+
 php artisan storage:link
 
 Creating NginX site config

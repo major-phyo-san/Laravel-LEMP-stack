@@ -1,0 +1,15 @@
+systemctl service creation for Laravel commands
+
+sudo nano /etc/systemd/system/laravel-command-name.service
+
+Description=Laravel Queue Worker
+
+[Service]
+ExecStart=/usr/bin/php /var/www/{prj_root}/artisan command:option
+Restart=always
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/{prj_root}/
+
+[Install]
+WantedBy=multi-user.target

@@ -9,6 +9,12 @@ sudo apt install nodejs
 If errors occurred
 sudo dpkg -i --force-overwrite /var/cache/apt/archives/nodejs_x.x.x-deb-1nodesource1_amd64.deb
 
+With NVM
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.39.0/install.sh | bash
+source ~/.profile
+nvm ls-remote
+nvm install x.x.x
+
 NPM
 sudo apt install npm
 (or)
